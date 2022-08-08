@@ -1,6 +1,7 @@
 version: '3.7'
 services:
   php:
+    container_name: ${PROJECT_NAME}_php
     build:
       context: ./php
       dockerfile: Dockerfile
@@ -9,6 +10,7 @@ services:
     volumes:
       - ../src:/var/www/html:delegated
   db:
+    container_name: ${PROJECT_NAME}_db
     build:
       context: ./mysql
       dockerfile: Dockerfile
@@ -18,9 +20,10 @@ services:
       - MYSQL_USER=${PROJECT_NAME}_user
       - MYSQL_PASSWORD=${PROJECT_NAME}_123
     volumes:
-    - mysql_data:/var/lib/mysql
+    - mysql_data_docker_lamp_laravel:/var/lib/mysql
 
   phpmyadmin:
+    container_name: ${PROJECT_NAME}_pma
     build:
       context: ./pma
       dockerfile: Dockerfile
@@ -32,11 +35,12 @@ services:
       - 8080:80
 
   maildev:
+    container_name: ${PROJECT_NAME}_maildev
     build:
       context: ./maildev
       dockerfile: Dockerfile
     ports:
       - "1080:1080"
       - "1025:1025"
-volumes: 
-  mysql_data:
+volumes:
+  mysql_data_docker_lamp_laravel:
